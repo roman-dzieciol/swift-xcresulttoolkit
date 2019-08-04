@@ -1,9 +1,10 @@
 
 import Foundation
 
-public enum V3_19 {}
+public enum V3_20_Static {
+}
 
-extension V3_19 {
+extension V3_20_Static {
     
     public struct FormatDescription: Codable {
 

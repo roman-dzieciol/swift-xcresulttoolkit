@@ -11,8 +11,8 @@ final class XCResultToolKitTests: XCTestCase {
 
             let kit = XCResultToolKit()
             let data = try kit.formatDescription(args: [])
-            let formatDescription = try JSONDecoder().decode(V3_19.FormatDescription.self, from: data)
-            let importer = V3_19.FormatModelImporter()
+            let formatDescription = try JSONDecoder().decode(V3_20_Static.FormatDescription.self, from: data)
+            let importer = V3_20_Static.FormatModelImporter()
             let formatModel = try importer.formatModel(from: formatDescription)
 
             let formatter = SWFormatter()

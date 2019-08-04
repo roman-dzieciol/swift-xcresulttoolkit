@@ -74,7 +74,7 @@ public class SwiftSyntaxEmitter {
                     [VariableDecl(.let, IdentifierPattern("container"), value: TryExpr {
                         FunctionCallExprSyntax(
                             MemberAccessExpr("decoder", "container"),
-                            FunctionCallArgument("keyedBy", IdentifierExpr("CodingKeys").dotSelf)
+                            FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
                         )
                     })]
                     properties.map { property -> Syntax in
@@ -85,8 +85,8 @@ public class SwiftSyntaxEmitter {
                             TryExpr {
                                 FunctionCallExprSyntax(
                                     MemberAccessExpr("container", property.isOptional ? "decodeIfPresent" : "decode"),
-                                    FunctionCallArgument(nil, property.nonOptional.identifierExpr.dotSelf),
-                                    FunctionCallArgument("forKey", ImplicitMemberExpr(name))
+                                    FunctionCallArgument(nil, MemberAccessExpr(property.nonOptional.identifierExpr, .selfKeyword)),
+                                    FunctionCallArgument("forKey", MemberAccessExpr(name))
                                 )
                             }
                         }
@@ -124,7 +124,7 @@ public class SwiftSyntaxEmitter {
                     [VariableDecl(.var, IdentifierPattern("container"), value:
                         FunctionCallExprSyntax(
                             MemberAccessExpr("encoder", "container"),
-                            FunctionCallArgument("keyedBy", IdentifierExpr("CodingKeys").dotSelf)
+                            FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
                         )
                         )
                     ]
@@ -133,7 +133,7 @@ public class SwiftSyntaxEmitter {
                             FunctionCallExprSyntax(
                                 MemberAccessExpr("container", property.isOptional ? "encodeIfPresent" : "encode"),
                                 FunctionCallArgument(nil, IdentifierExpr(property.name)),
-                                FunctionCallArgument("forKey", ImplicitMemberExpr(property.name))
+                                FunctionCallArgument("forKey", MemberAccessExpr(property.name))
                             )
                         }
                     }

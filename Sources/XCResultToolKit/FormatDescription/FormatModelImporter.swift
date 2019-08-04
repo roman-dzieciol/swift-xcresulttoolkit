@@ -2,10 +2,10 @@
 import Foundation
 
 public enum FormatPrinterError: Error {
-    case unsupportedProperty(V3_19.TypeDescription.PropertyInfo)
+    case unsupportedProperty(V3_20_Static.TypeDescription.PropertyInfo)
 }
 
-extension V3_19.FormatDescription.VersionInfo {
+extension V3_20_Static.FormatDescription.VersionInfo {
     public var namespace: String {
         return "V\(major)_\(minor)"
     }
@@ -13,7 +13,7 @@ extension V3_19.FormatDescription.VersionInfo {
 
 public extension Property {
 
-    convenience init(propertyInfo info: V3_19.TypeDescription.PropertyInfo) throws {
+    convenience init(propertyInfo info: V3_20_Static.TypeDescription.PropertyInfo) throws {
         switch info.type {
         case "Optional":
             guard let wrappedType = info.wrappedType else {
@@ -33,22 +33,22 @@ public extension Property {
     }
 }
 
-public extension V3_19 {
+public extension V3_20_Static {
     class FormatModelImporter {
 
-        var typesByName: [String: V3_19.TypeDescription] = [:]
+        var typesByName: [String: V3_20_Static.TypeDescription] = [:]
         var topLevelTypesByName: [String: TopLevelType] = [:]
 
         public init() {
         }
 
-        public func formatModel(from formatDescription: V3_19.FormatDescription) throws -> FormatModel {
+        public func formatModel(from formatDescription: V3_20_Static.FormatDescription) throws -> FormatModel {
             try load(formatDescription: formatDescription)
             return FormatModel(version: formatDescription.version.namespace,
                                topLevelTypesByName: topLevelTypesByName)
         }
 
-        func load(formatDescription: V3_19.FormatDescription) throws {
+        func load(formatDescription: V3_20_Static.FormatDescription) throws {
             formatDescription.types.forEach { type in
                 typesByName[type.type.name] = type
             }
