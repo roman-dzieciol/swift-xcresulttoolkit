@@ -32,8 +32,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            issueType = try container.decode(String.self, forKey: .issueType)
-            message = try container.decode(String.self, forKey: .message)
+            issueType = try container.decode(_Value<String>.self, forKey: .issueType)._value
+            message = try container.decode(_Value<String>.self, forKey: .message)._value
             producingTarget = try container.decodeIfPresent(String.self, forKey: .producingTarget)
             documentLocationInCreatingWorkspace = try container.decodeIfPresent(DocumentLocation.self, forKey: .documentLocationInCreatingWorkspace)
         }

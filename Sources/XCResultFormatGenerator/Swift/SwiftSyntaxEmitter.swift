@@ -89,13 +89,7 @@ public class SwiftSyntaxEmitter {
                         return SequenceExpr {
                             IdentifierExpr(name)
                             AssignmentExpr()
-                            TryExpr {
-                                FunctionCallExprSyntax(
-                                    MemberAccessExpr("container", property.isOptional ? "decodeIfPresent" : "decode"),
-                                    FunctionCallArgument(nil, MemberAccessExpr(property.nonOptional.identifierExpr, .selfKeyword)),
-                                    FunctionCallArgument("forKey", MemberAccessExpr(name))
-                                )
-                            }
+                            property.decodeCall()
                         }
                     }
                     if type.supertype != nil {

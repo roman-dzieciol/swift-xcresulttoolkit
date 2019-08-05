@@ -20,7 +20,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            hash = try container.decode(String.self, forKey: .hash)
+            hash = try container.decode(_Value<String>.self, forKey: .hash)._value
         }
 
         public func encode(to encoder: Encoder) throws {

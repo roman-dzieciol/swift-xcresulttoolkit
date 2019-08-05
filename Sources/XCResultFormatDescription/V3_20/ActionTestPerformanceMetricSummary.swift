@@ -56,8 +56,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            displayName = try container.decode(String.self, forKey: .displayName)
-            unitOfMeasurement = try container.decode(String.self, forKey: .unitOfMeasurement)
+            displayName = try container.decode(_Value<String>.self, forKey: .displayName)._value
+            unitOfMeasurement = try container.decode(_Value<String>.self, forKey: .unitOfMeasurement)._value
             measurements = try container.decode([Double].self, forKey: .measurements)
             identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
             baselineName = try container.decodeIfPresent(String.self, forKey: .baselineName)

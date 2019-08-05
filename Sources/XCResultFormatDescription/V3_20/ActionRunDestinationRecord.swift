@@ -36,8 +36,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            displayName = try container.decode(String.self, forKey: .displayName)
-            targetArchitecture = try container.decode(String.self, forKey: .targetArchitecture)
+            displayName = try container.decode(_Value<String>.self, forKey: .displayName)._value
+            targetArchitecture = try container.decode(_Value<String>.self, forKey: .targetArchitecture)._value
             targetDeviceRecord = try container.decode(ActionDeviceRecord.self, forKey: .targetDeviceRecord)
             localComputerRecord = try container.decode(ActionDeviceRecord.self, forKey: .localComputerRecord)
             targetSDKRecord = try container.decode(ActionSDKRecord.self, forKey: .targetSDKRecord)

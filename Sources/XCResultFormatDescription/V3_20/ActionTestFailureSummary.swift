@@ -33,9 +33,9 @@ public extension V3_20 {
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             message = try container.decodeIfPresent(String.self, forKey: .message)
-            fileName = try container.decode(String.self, forKey: .fileName)
-            lineNumber = try container.decode(Int.self, forKey: .lineNumber)
-            isPerformanceFailure = try container.decode(Bool.self, forKey: .isPerformanceFailure)
+            fileName = try container.decode(_Value<String>.self, forKey: .fileName)._value
+            lineNumber = try container.decode(_Value<Int>.self, forKey: .lineNumber)._value
+            isPerformanceFailure = try container.decode(_Value<Bool>.self, forKey: .isPerformanceFailure)._value
         }
 
         public func encode(to encoder: Encoder) throws {

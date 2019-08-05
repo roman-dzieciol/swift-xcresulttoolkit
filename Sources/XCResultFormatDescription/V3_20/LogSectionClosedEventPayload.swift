@@ -30,7 +30,7 @@ public extension V3_20 {
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             resultInfo = try container.decodeIfPresent(StreamedActionResultInfo.self, forKey: .resultInfo)
-            sectionIndex = try container.decode(Int.self, forKey: .sectionIndex)
+            sectionIndex = try container.decode(_Value<Int>.self, forKey: .sectionIndex)._value
             tail = try container.decodeIfPresent(ActivityLogSectionTail.self, forKey: .tail)
             try super.init(from: decoder)
         }

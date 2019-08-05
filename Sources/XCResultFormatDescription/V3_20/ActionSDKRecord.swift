@@ -32,10 +32,10 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            name = try container.decode(String.self, forKey: .name)
-            identifier = try container.decode(String.self, forKey: .identifier)
-            operatingSystemVersion = try container.decode(String.self, forKey: .operatingSystemVersion)
-            isInternal = try container.decode(Bool.self, forKey: .isInternal)
+            name = try container.decode(_Value<String>.self, forKey: .name)._value
+            identifier = try container.decode(_Value<String>.self, forKey: .identifier)._value
+            operatingSystemVersion = try container.decode(_Value<String>.self, forKey: .operatingSystemVersion)._value
+            isInternal = try container.decode(_Value<Bool>.self, forKey: .isInternal)._value
         }
 
         public func encode(to encoder: Encoder) throws {

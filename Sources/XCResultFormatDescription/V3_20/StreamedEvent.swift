@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            name = try container.decode(String.self, forKey: .name)
+            name = try container.decode(_Value<String>.self, forKey: .name)._value
             structuredPayload = try container.decodeIfPresent(AnyStreamedEventPayload.self, forKey: .structuredPayload)
         }
 

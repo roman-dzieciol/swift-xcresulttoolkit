@@ -25,7 +25,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            message = try container.decode(String.self, forKey: .message)
+            message = try container.decode(_Value<String>.self, forKey: .message)._value
             progress = try container.decodeIfPresent(Double.self, forKey: .progress)
             try super.init(from: decoder)
         }

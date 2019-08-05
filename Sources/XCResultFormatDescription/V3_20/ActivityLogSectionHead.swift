@@ -28,8 +28,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            domainType = try container.decode(String.self, forKey: .domainType)
-            title = try container.decode(String.self, forKey: .title)
+            domainType = try container.decode(_Value<String>.self, forKey: .domainType)._value
+            title = try container.decode(_Value<String>.self, forKey: .title)._value
             startTime = try container.decodeIfPresent(Date.self, forKey: .startTime)
         }
 

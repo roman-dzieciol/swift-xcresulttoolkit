@@ -20,7 +20,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            actionIndex = try container.decode(Int.self, forKey: .actionIndex)
+            actionIndex = try container.decode(_Value<Int>.self, forKey: .actionIndex)._value
         }
 
         public func encode(to encoder: Encoder) throws {

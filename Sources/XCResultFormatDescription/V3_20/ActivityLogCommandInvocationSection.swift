@@ -36,8 +36,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            commandDetails = try container.decode(String.self, forKey: .commandDetails)
-            emittedOutput = try container.decode(String.self, forKey: .emittedOutput)
+            commandDetails = try container.decode(_Value<String>.self, forKey: .commandDetails)._value
+            emittedOutput = try container.decode(_Value<String>.self, forKey: .emittedOutput)._value
             exitCode = try container.decodeIfPresent(Int.self, forKey: .exitCode)
             try super.init(from: decoder)
         }

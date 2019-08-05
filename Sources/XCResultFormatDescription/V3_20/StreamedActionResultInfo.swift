@@ -24,8 +24,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            actionIndex = try container.decode(Int.self, forKey: .actionIndex)
-            resultIndex = try container.decode(Int.self, forKey: .resultIndex)
+            actionIndex = try container.decode(_Value<Int>.self, forKey: .actionIndex)._value
+            resultIndex = try container.decode(_Value<Int>.self, forKey: .resultIndex)._value
         }
 
         public func encode(to encoder: Encoder) throws {

@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            duration = try container.decode(Double.self, forKey: .duration)
+            duration = try container.decode(_Value<Double>.self, forKey: .duration)._value
             result = try container.decodeIfPresent(String.self, forKey: .result)
         }
 

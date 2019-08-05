@@ -36,11 +36,11 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            analyzerWarningCount = try container.decode(Int.self, forKey: .analyzerWarningCount)
-            errorCount = try container.decode(Int.self, forKey: .errorCount)
-            testsCount = try container.decode(Int.self, forKey: .testsCount)
-            testsFailedCount = try container.decode(Int.self, forKey: .testsFailedCount)
-            warningCount = try container.decode(Int.self, forKey: .warningCount)
+            analyzerWarningCount = try container.decode(_Value<Int>.self, forKey: .analyzerWarningCount)._value
+            errorCount = try container.decode(_Value<Int>.self, forKey: .errorCount)._value
+            testsCount = try container.decode(_Value<Int>.self, forKey: .testsCount)._value
+            testsFailedCount = try container.decode(_Value<Int>.self, forKey: .testsFailedCount)._value
+            warningCount = try container.decode(_Value<Int>.self, forKey: .warningCount)._value
         }
 
         public func encode(to encoder: Encoder) throws {

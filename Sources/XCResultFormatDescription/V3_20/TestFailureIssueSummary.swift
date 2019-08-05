@@ -25,7 +25,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testCaseName = try container.decode(String.self, forKey: .testCaseName)
+            testCaseName = try container.decode(_Value<String>.self, forKey: .testCaseName)._value
             try super.init(from: decoder)
         }
 

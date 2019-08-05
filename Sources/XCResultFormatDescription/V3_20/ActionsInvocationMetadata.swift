@@ -28,8 +28,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            creatingWorkspaceFilePath = try container.decode(String.self, forKey: .creatingWorkspaceFilePath)
-            uniqueIdentifier = try container.decode(String.self, forKey: .uniqueIdentifier)
+            creatingWorkspaceFilePath = try container.decode(_Value<String>.self, forKey: .creatingWorkspaceFilePath)._value
+            uniqueIdentifier = try container.decode(_Value<String>.self, forKey: .uniqueIdentifier)._value
             schemeIdentifier = try container.decodeIfPresent(EntityIdentifier.self, forKey: .schemeIdentifier)
         }
 

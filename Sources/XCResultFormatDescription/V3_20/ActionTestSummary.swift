@@ -39,8 +39,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testStatus = try container.decode(String.self, forKey: .testStatus)
-            duration = try container.decode(Double.self, forKey: .duration)
+            testStatus = try container.decode(_Value<String>.self, forKey: .testStatus)._value
+            duration = try container.decode(_Value<Double>.self, forKey: .duration)._value
             performanceMetrics = try container.decode([ActionTestPerformanceMetricSummary].self, forKey: .performanceMetrics)
             failureSummaries = try container.decode([ActionTestFailureSummary].self, forKey: .failureSummaries)
             activitySummaries = try container.decode([ActionTestActivitySummary].self, forKey: .activitySummaries)

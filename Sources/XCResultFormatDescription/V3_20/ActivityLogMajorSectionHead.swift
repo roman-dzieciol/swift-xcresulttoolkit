@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            subtitle = try container.decode(String.self, forKey: .subtitle)
+            subtitle = try container.decode(_Value<String>.self, forKey: .subtitle)._value
             try super.init(from: decoder)
         }
 

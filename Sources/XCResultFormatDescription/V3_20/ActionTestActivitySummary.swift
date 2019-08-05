@@ -44,9 +44,9 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            title = try container.decode(String.self, forKey: .title)
-            activityType = try container.decode(String.self, forKey: .activityType)
-            uuid = try container.decode(String.self, forKey: .uuid)
+            title = try container.decode(_Value<String>.self, forKey: .title)._value
+            activityType = try container.decode(_Value<String>.self, forKey: .activityType)._value
+            uuid = try container.decode(_Value<String>.self, forKey: .uuid)._value
             start = try container.decodeIfPresent(Date.self, forKey: .start)
             finish = try container.decodeIfPresent(Date.self, forKey: .finish)
             attachments = try container.decode([ActionTestAttachment].self, forKey: .attachments)

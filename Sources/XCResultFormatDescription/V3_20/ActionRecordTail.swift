@@ -28,7 +28,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            endedTime = try container.decode(Date.self, forKey: .endedTime)
+            endedTime = try container.decode(_Value<Date>.self, forKey: .endedTime)._value
             buildResult = try container.decode(ActionResult.self, forKey: .buildResult)
             actionResult = try container.decode(ActionResult.self, forKey: .actionResult)
         }

@@ -24,8 +24,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            url = try container.decode(String.self, forKey: .url)
-            concreteTypeName = try container.decode(String.self, forKey: .concreteTypeName)
+            url = try container.decode(_Value<String>.self, forKey: .url)._value
+            concreteTypeName = try container.decode(_Value<String>.self, forKey: .concreteTypeName)._value
         }
 
         public func encode(to encoder: Encoder) throws {

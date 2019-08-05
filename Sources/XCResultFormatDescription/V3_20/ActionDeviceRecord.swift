@@ -88,17 +88,17 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            name = try container.decode(String.self, forKey: .name)
-            isConcreteDevice = try container.decode(Bool.self, forKey: .isConcreteDevice)
-            operatingSystemVersion = try container.decode(String.self, forKey: .operatingSystemVersion)
-            operatingSystemVersionWithBuildNumber = try container.decode(String.self, forKey: .operatingSystemVersionWithBuildNumber)
-            nativeArchitecture = try container.decode(String.self, forKey: .nativeArchitecture)
-            modelName = try container.decode(String.self, forKey: .modelName)
-            modelCode = try container.decode(String.self, forKey: .modelCode)
-            modelUTI = try container.decode(String.self, forKey: .modelUTI)
-            identifier = try container.decode(String.self, forKey: .identifier)
-            isWireless = try container.decode(Bool.self, forKey: .isWireless)
-            cpuKind = try container.decode(String.self, forKey: .cpuKind)
+            name = try container.decode(_Value<String>.self, forKey: .name)._value
+            isConcreteDevice = try container.decode(_Value<Bool>.self, forKey: .isConcreteDevice)._value
+            operatingSystemVersion = try container.decode(_Value<String>.self, forKey: .operatingSystemVersion)._value
+            operatingSystemVersionWithBuildNumber = try container.decode(_Value<String>.self, forKey: .operatingSystemVersionWithBuildNumber)._value
+            nativeArchitecture = try container.decode(_Value<String>.self, forKey: .nativeArchitecture)._value
+            modelName = try container.decode(_Value<String>.self, forKey: .modelName)._value
+            modelCode = try container.decode(_Value<String>.self, forKey: .modelCode)._value
+            modelUTI = try container.decode(_Value<String>.self, forKey: .modelUTI)._value
+            identifier = try container.decode(_Value<String>.self, forKey: .identifier)._value
+            isWireless = try container.decode(_Value<Bool>.self, forKey: .isWireless)._value
+            cpuKind = try container.decode(_Value<String>.self, forKey: .cpuKind)._value
             cpuCount = try container.decodeIfPresent(Int.self, forKey: .cpuCount)
             cpuSpeedInMHz = try container.decodeIfPresent(Int.self, forKey: .cpuSpeedInMHz)
             busSpeedInMHz = try container.decodeIfPresent(Int.self, forKey: .busSpeedInMHz)

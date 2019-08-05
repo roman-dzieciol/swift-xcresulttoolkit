@@ -13,22 +13,22 @@ extension V3_20_Static.FormatDescription.VersionInfo {
 
 public extension Property {
 
-    convenience init(propertyInfo info: V3_20_Static.TypeDescription.PropertyInfo) throws {
+    convenience init(propertyInfo info: V3_20_Static.TypeDescription.PropertyInfo, isValue: Bool) throws {
         switch info.type {
         case "Optional":
             guard let wrappedType = info.wrappedType else {
                 throw FormatPrinterError.unsupportedProperty(info)
             }
-            self.init(name: info.name, type: wrappedType, isArray: false, isOptional: true, wrappedType: nil)
+            self.init(name: info.name, type: wrappedType, isArray: false, isOptional: true, isValue: isValue, wrappedType: nil)
 
         case "Array":
             guard let wrappedType = info.wrappedType else {
                 throw FormatPrinterError.unsupportedProperty(info)
             }
-            self.init(name: info.name, type: wrappedType, isArray: true, isOptional: false, wrappedType: nil)
+            self.init(name: info.name, type: wrappedType, isArray: true, isOptional: false, isValue: isValue, wrappedType: nil)
 
         default:
-            self.init(name: info.name, type: info.type, isArray: false, isOptional: false, wrappedType: info.wrappedType)
+            self.init(name: info.name, type: info.type, isArray: false, isOptional: false, isValue: isValue, wrappedType: info.wrappedType)
         }
     }
 }
@@ -67,8 +67,9 @@ public extension V3_20_Static {
                 let supertype = try type.type.supertype.flatMap {
                     try load(typeName: $0)
                 }
-                let properties = try type.properties?.map {
-                    try Property(propertyInfo: $0)
+                let properties: [Property] = try type.properties?.map {
+                    let isValue = typesByName[$0.type]?.kind == .some(.value)
+                    return try Property(propertyInfo: $0, isValue: isValue)
                     } ?? []
                 let result = TopLevelType(name: typeName, supertype: supertype, properties: properties)
                 topLevelTypesByName[typeName] = result

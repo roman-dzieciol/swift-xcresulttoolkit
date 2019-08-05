@@ -32,10 +32,10 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            entityName = try container.decode(String.self, forKey: .entityName)
-            containerName = try container.decode(String.self, forKey: .containerName)
-            entityType = try container.decode(String.self, forKey: .entityType)
-            sharedState = try container.decode(String.self, forKey: .sharedState)
+            entityName = try container.decode(_Value<String>.self, forKey: .entityName)._value
+            containerName = try container.decode(_Value<String>.self, forKey: .containerName)._value
+            entityType = try container.decode(_Value<String>.self, forKey: .entityType)._value
+            sharedState = try container.decode(_Value<String>.self, forKey: .sharedState)._value
         }
 
         public func encode(to encoder: Encoder) throws {

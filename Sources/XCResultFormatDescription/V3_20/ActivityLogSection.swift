@@ -44,10 +44,10 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            domainType = try container.decode(String.self, forKey: .domainType)
-            title = try container.decode(String.self, forKey: .title)
+            domainType = try container.decode(_Value<String>.self, forKey: .domainType)._value
+            title = try container.decode(_Value<String>.self, forKey: .title)._value
             startTime = try container.decodeIfPresent(Date.self, forKey: .startTime)
-            duration = try container.decode(Double.self, forKey: .duration)
+            duration = try container.decode(_Value<Double>.self, forKey: .duration)._value
             result = try container.decodeIfPresent(String.self, forKey: .result)
             subsections = try container.decode([ActivityLogSection].self, forKey: .subsections)
             messages = try container.decode([ActivityLogMessage].self, forKey: .messages)

@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            key = try container.decode(String.self, forKey: .key)
+            key = try container.decode(_Value<String>.self, forKey: .key)._value
             value = try container.decode(SchemaSerializable.self, forKey: .value)
         }
 

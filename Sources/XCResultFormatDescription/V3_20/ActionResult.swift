@@ -52,8 +52,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            resultName = try container.decode(String.self, forKey: .resultName)
-            status = try container.decode(String.self, forKey: .status)
+            resultName = try container.decode(_Value<String>.self, forKey: .resultName)._value
+            status = try container.decode(_Value<String>.self, forKey: .status)._value
             metrics = try container.decode(ResultMetrics.self, forKey: .metrics)
             issues = try container.decode(ResultIssueSummaries.self, forKey: .issues)
             coverage = try container.decode(CodeCoverageInfo.self, forKey: .coverage)

@@ -28,7 +28,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            hasCoverageData = try container.decode(Bool.self, forKey: .hasCoverageData)
+            hasCoverageData = try container.decode(_Value<Bool>.self, forKey: .hasCoverageData)._value
             reportRef = try container.decodeIfPresent(Reference.self, forKey: .reportRef)
             archiveRef = try container.decodeIfPresent(Reference.self, forKey: .archiveRef)
         }

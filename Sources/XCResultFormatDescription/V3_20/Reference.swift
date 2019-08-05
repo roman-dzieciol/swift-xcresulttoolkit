@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            id = try container.decode(String.self, forKey: .id)
+            id = try container.decode(_Value<String>.self, forKey: .id)._value
             targetType = try container.decodeIfPresent(TypeDefinition.self, forKey: .targetType)
         }
 

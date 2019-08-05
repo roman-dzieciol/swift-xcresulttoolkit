@@ -43,12 +43,12 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testStatus = try container.decode(String.self, forKey: .testStatus)
+            testStatus = try container.decode(_Value<String>.self, forKey: .testStatus)._value
             duration = try container.decodeIfPresent(Double.self, forKey: .duration)
             summaryRef = try container.decodeIfPresent(Reference.self, forKey: .summaryRef)
-            performanceMetricsCount = try container.decode(Int.self, forKey: .performanceMetricsCount)
-            failureSummariesCount = try container.decode(Int.self, forKey: .failureSummariesCount)
-            activitySummariesCount = try container.decode(Int.self, forKey: .activitySummariesCount)
+            performanceMetricsCount = try container.decode(_Value<Int>.self, forKey: .performanceMetricsCount)._value
+            failureSummariesCount = try container.decode(_Value<Int>.self, forKey: .failureSummariesCount)._value
+            activitySummariesCount = try container.decode(_Value<Int>.self, forKey: .activitySummariesCount)._value
             try super.init(from: decoder)
         }
 

@@ -40,8 +40,8 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            type = try container.decode(String.self, forKey: .type)
-            title = try container.decode(String.self, forKey: .title)
+            type = try container.decode(_Value<String>.self, forKey: .type)._value
+            title = try container.decode(_Value<String>.self, forKey: .title)._value
             shortTitle = try container.decodeIfPresent(String.self, forKey: .shortTitle)
             category = try container.decodeIfPresent(String.self, forKey: .category)
             location = try container.decodeIfPresent(DocumentLocation.self, forKey: .location)

@@ -36,10 +36,10 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            schemeCommandName = try container.decode(String.self, forKey: .schemeCommandName)
-            schemeTaskName = try container.decode(String.self, forKey: .schemeTaskName)
+            schemeCommandName = try container.decode(_Value<String>.self, forKey: .schemeCommandName)._value
+            schemeTaskName = try container.decode(_Value<String>.self, forKey: .schemeTaskName)._value
             title = try container.decodeIfPresent(String.self, forKey: .title)
-            startedTime = try container.decode(Date.self, forKey: .startedTime)
+            startedTime = try container.decode(_Value<Date>.self, forKey: .startedTime)._value
             runDestination = try container.decode(ActionRunDestinationRecord.self, forKey: .runDestination)
         }
 

@@ -24,7 +24,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            title = try container.decode(String.self, forKey: .title)
+            title = try container.decode(_Value<String>.self, forKey: .title)._value
             location = try container.decodeIfPresent(DocumentLocation.self, forKey: .location)
         }
 

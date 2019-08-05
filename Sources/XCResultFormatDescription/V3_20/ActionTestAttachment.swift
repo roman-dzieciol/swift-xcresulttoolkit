@@ -52,15 +52,15 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            uniformTypeIdentifier = try container.decode(String.self, forKey: .uniformTypeIdentifier)
+            uniformTypeIdentifier = try container.decode(_Value<String>.self, forKey: .uniformTypeIdentifier)._value
             name = try container.decodeIfPresent(String.self, forKey: .name)
             timestamp = try container.decodeIfPresent(Date.self, forKey: .timestamp)
             userInfo = try container.decodeIfPresent(SortedKeyValueArray.self, forKey: .userInfo)
-            lifetime = try container.decode(String.self, forKey: .lifetime)
-            inActivityIdentifier = try container.decode(Int.self, forKey: .inActivityIdentifier)
+            lifetime = try container.decode(_Value<String>.self, forKey: .lifetime)._value
+            inActivityIdentifier = try container.decode(_Value<Int>.self, forKey: .inActivityIdentifier)._value
             filename = try container.decodeIfPresent(String.self, forKey: .filename)
             payloadRef = try container.decodeIfPresent(Reference.self, forKey: .payloadRef)
-            payloadSize = try container.decode(Int.self, forKey: .payloadSize)
+            payloadSize = try container.decode(_Value<Int>.self, forKey: .payloadSize)._value
         }
 
         public func encode(to encoder: Encoder) throws {
