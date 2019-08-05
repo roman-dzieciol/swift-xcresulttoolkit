@@ -8,7 +8,4 @@ final class XCResultToolCLITests: XCTestCase {
         //XCTAssertEqual(XCResultToolCLI().text, "Hello, World!")
     }
 
-    static var allTests = [
-        ("testExample", testExample),
-    ]
 }

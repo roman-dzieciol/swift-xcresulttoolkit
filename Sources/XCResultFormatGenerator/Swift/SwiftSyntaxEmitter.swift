@@ -41,9 +41,16 @@ public class SwiftSyntaxEmitter {
             EnumDecl("CodingKeys", [SimpleTypeIdentifier("CodingKey")], properties.map { $0.name })
                 .private
         )
+        
+        let override: [DeclModifier] = type.supertype != nil ? [DeclModifier.override] : []
+        
+        let overrideInit: [DeclModifier] = type.supertype != nil && allProperties.count == allSuperProperties.count ? [DeclModifier.override] : []
 
         let initDecl = InitializerDecl(params: allProperties.map { FunctionParameter($0.name, type: $0.simpleType) })
             .public
+            .addModifiers {
+                overrideInit
+            }
             .setCodeBlock {
                 properties.map { property -> Syntax in
                     let name = property.name
@@ -103,7 +110,6 @@ public class SwiftSyntaxEmitter {
             }
         )
 
-        let override: [DeclModifier] = type.supertype != nil ? [DeclModifier.override] : []
         members.append(
             FunctionDecl("encode", FunctionParameter("to", "encoder", type: SimpleTypeIdentifier("Encoder")))
                 .public

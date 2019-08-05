@@ -8,7 +8,7 @@ public extension V3_20 {
         private enum CodingKeys: CodingKey {
         }
 
-        public init(
+        public override init(
             duration: Double,
             result: String?
             ) {

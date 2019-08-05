@@ -13,7 +13,13 @@ let package = Package(
             targets: ["XCResultToolCLI"]),
         .library(
             name: "XCResultToolKit",
-            targets: ["XCResultToolKit"])
+            targets: ["XCResultToolKit"]),
+        .library(
+            name: "XCResultFormatDescription",
+            targets: ["XCResultFormatDescription"]),
+        .library(
+            name: "XCResultFormatGenerator",
+            targets: ["XCResultFormatGenerator"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -34,11 +40,23 @@ let package = Package(
             name: "XCResultToolCLI",
             dependencies: ["XCResultToolKit"]),
         .target(
+            name: "XCResultFormatDescription",
+            dependencies: []),
+        .target(
+            name: "XCResultFormatGenerator",
+            dependencies: ["XCResultToolKit", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
+        .target(
             name: "XCResultToolKit",
-            dependencies: ["SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
+            dependencies: []),
+        .testTarget(
+            name: "XCResultFormatDescriptionTests",
+            dependencies: ["XCResultFormatDescription"]),
+        .testTarget(
+            name: "XCResultFormatGeneratorTests",
+            dependencies: ["XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
         .testTarget(
             name: "XCResultToolKitTests",
-            dependencies: ["XCResultToolKit", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"])
+            dependencies: ["XCResultToolKit"])
     ],
     swiftLanguageVersions: [.v5]
 )
