@@ -78,18 +78,20 @@ public class SwiftSyntaxEmitter {
                 .throws
                 .required
                 .setCodeBlock {
-                    [VariableDecl(.let, IdentifierPattern("container"), value: TryExpr {
-                        FunctionCallExprSyntax(
-                            MemberAccessExpr("decoder", "container"),
-                            FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
-                        )
-                    })]
-                    properties.map { property -> Syntax in
-                        let name = property.name
-                        return SequenceExpr {
-                            IdentifierExpr(name)
-                            AssignmentExpr()
-                            property.decodeCall()
+                    if !properties.isEmpty {
+                        [VariableDecl(.let, IdentifierPattern("container"), value: TryExpr {
+                            FunctionCallExprSyntax(
+                                MemberAccessExpr("decoder", "container"),
+                                FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
+                            )
+                        })]
+                        properties.map { property -> Syntax in
+                            let name = property.name
+                            return SequenceExpr {
+                                IdentifierExpr(name)
+                                AssignmentExpr()
+                                property.decodeCall()
+                            }
                         }
                     }
                     if type.supertype != nil {
@@ -121,20 +123,22 @@ public class SwiftSyntaxEmitter {
                             }
                         ]
                     }
-                    [VariableDecl(.var, IdentifierPattern("container"), value:
-                        FunctionCallExprSyntax(
-                            MemberAccessExpr("encoder", "container"),
-                            FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
-                        )
-                        )
-                    ]
-                    properties.map { property in
-                        TryExpr {
+                    if !properties.isEmpty {
+                        [VariableDecl(.var, IdentifierPattern("container"), value:
                             FunctionCallExprSyntax(
-                                MemberAccessExpr("container", property.isOptional ? "encodeIfPresent" : "encode"),
-                                FunctionCallArgument(nil, IdentifierExpr(property.name)),
-                                FunctionCallArgument("forKey", MemberAccessExpr(property.name))
+                                MemberAccessExpr("encoder", "container"),
+                                FunctionCallArgument("keyedBy", MemberAccessExpr("CodingKeys", .selfKeyword))
                             )
+                            )
+                        ]
+                        properties.map { property in
+                            TryExpr {
+                                FunctionCallExprSyntax(
+                                    MemberAccessExpr("container", property.isOptional ? "encodeIfPresent" : "encode"),
+                                    FunctionCallArgument(nil, IdentifierExpr(property.name)),
+                                    FunctionCallArgument("forKey", MemberAccessExpr(property.name))
+                                )
+                            }
                         }
                     }
             }
