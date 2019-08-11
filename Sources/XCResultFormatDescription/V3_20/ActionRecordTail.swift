@@ -4,9 +4,9 @@ import Foundation
 public extension V3_20 {
 
     class ActionRecordTail: Codable {
-        public let endedTime: Date
-        public let buildResult: ActionResult
-        public let actionResult: ActionResult
+        public let endedTime: Date?
+        public let buildResult: ActionResult?
+        public let actionResult: ActionResult?
 
         private enum CodingKeys: CodingKey {
             case endedTime
@@ -15,9 +15,9 @@ public extension V3_20 {
         }
 
         public init(
-            endedTime: Date,
-            buildResult: ActionResult,
-            actionResult: ActionResult
+            endedTime: Date?,
+            buildResult: ActionResult?,
+            actionResult: ActionResult?
             ) {
             self.endedTime = endedTime
             self.buildResult = buildResult
@@ -28,16 +28,16 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            endedTime = try container.decode(_Value<Date>.self, forKey: .endedTime)._value
-            buildResult = try container.decode(ActionResult.self, forKey: .buildResult)
-            actionResult = try container.decode(ActionResult.self, forKey: .actionResult)
+            endedTime = try container.decodeIfPresent(_Value<Date>.self, forKey: .endedTime)?._value
+            buildResult = try container.decodeIfPresent(ActionResult.self, forKey: .buildResult)
+            actionResult = try container.decodeIfPresent(ActionResult.self, forKey: .actionResult)
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(endedTime, forKey: .endedTime)
-            try container.encode(buildResult, forKey: .buildResult)
-            try container.encode(actionResult, forKey: .actionResult)
+            try container.encodeIfPresent(endedTime, forKey: .endedTime)
+            try container.encodeIfPresent(buildResult, forKey: .buildResult)
+            try container.encodeIfPresent(actionResult, forKey: .actionResult)
         }
     }
 }

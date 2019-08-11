@@ -4,7 +4,7 @@ import Foundation
 public extension V3_20 {
 
     class ActivityLogMessageAnnotation: Codable {
-        public let title: String
+        public let title: String?
         public let location: DocumentLocation?
 
         private enum CodingKeys: CodingKey {
@@ -13,7 +13,7 @@ public extension V3_20 {
         }
 
         public init(
-            title: String,
+            title: String?,
             location: DocumentLocation?
             ) {
             self.title = title
@@ -24,13 +24,13 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            title = try container.decode(_Value<String>.self, forKey: .title)._value
+            title = try container.decodeIfPresent(_Value<String>.self, forKey: .title)?._value
             location = try container.decodeIfPresent(DocumentLocation.self, forKey: .location)
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(title, forKey: .title)
+            try container.encodeIfPresent(title, forKey: .title)
             try container.encodeIfPresent(location, forKey: .location)
         }
     }

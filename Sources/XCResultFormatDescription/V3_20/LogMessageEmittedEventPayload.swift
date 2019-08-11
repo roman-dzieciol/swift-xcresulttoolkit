@@ -5,7 +5,7 @@ public extension V3_20 {
 
     class LogMessageEmittedEventPayload: AnyStreamedEventPayload {
         public let resultInfo: StreamedActionResultInfo?
-        public let sectionIndex: Int
+        public let sectionIndex: Int?
         public let message: ActivityLogMessage?
 
         private enum CodingKeys: CodingKey {
@@ -16,7 +16,7 @@ public extension V3_20 {
 
         public init(
             resultInfo: StreamedActionResultInfo?,
-            sectionIndex: Int,
+            sectionIndex: Int?,
             message: ActivityLogMessage?
             ) {
             self.resultInfo = resultInfo
@@ -30,7 +30,7 @@ public extension V3_20 {
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             resultInfo = try container.decodeIfPresent(StreamedActionResultInfo.self, forKey: .resultInfo)
-            sectionIndex = try container.decode(_Value<Int>.self, forKey: .sectionIndex)._value
+            sectionIndex = try container.decodeIfPresent(_Value<Int>.self, forKey: .sectionIndex)?._value
             message = try container.decodeIfPresent(ActivityLogMessage.self, forKey: .message)
             try super.init(from: decoder)
         }
@@ -39,7 +39,7 @@ public extension V3_20 {
             try super.encode(to: encoder)
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(resultInfo, forKey: .resultInfo)
-            try container.encode(sectionIndex, forKey: .sectionIndex)
+            try container.encodeIfPresent(sectionIndex, forKey: .sectionIndex)
             try container.encodeIfPresent(message, forKey: .message)
         }
     }

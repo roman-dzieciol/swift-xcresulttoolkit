@@ -22,7 +22,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
+            identifier = try container.decodeIfPresent(_Value<String>.self, forKey: .identifier)?._value
             try super.init(from: decoder)
         }
 

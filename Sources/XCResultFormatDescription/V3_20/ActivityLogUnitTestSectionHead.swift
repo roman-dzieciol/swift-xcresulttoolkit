@@ -17,8 +17,8 @@ public extension V3_20 {
         }
 
         public init(
-            domainType: String,
-            title: String,
+            domainType: String?,
+            title: String?,
             startTime: Date?,
             testName: String?,
             suiteName: String?,
@@ -36,10 +36,10 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testName = try container.decodeIfPresent(String.self, forKey: .testName)
-            suiteName = try container.decodeIfPresent(String.self, forKey: .suiteName)
-            runnablePath = try container.decodeIfPresent(String.self, forKey: .runnablePath)
-            runnableUTI = try container.decodeIfPresent(String.self, forKey: .runnableUTI)
+            testName = try container.decodeIfPresent(_Value<String>.self, forKey: .testName)?._value
+            suiteName = try container.decodeIfPresent(_Value<String>.self, forKey: .suiteName)?._value
+            runnablePath = try container.decodeIfPresent(_Value<String>.self, forKey: .runnablePath)?._value
+            runnableUTI = try container.decodeIfPresent(_Value<String>.self, forKey: .runnableUTI)?._value
             try super.init(from: decoder)
         }
 

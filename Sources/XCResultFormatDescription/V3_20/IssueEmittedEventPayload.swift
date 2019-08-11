@@ -31,7 +31,7 @@ public extension V3_20 {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             resultInfo = try container.decodeIfPresent(StreamedActionResultInfo.self, forKey: .resultInfo)
             issue = try container.decodeIfPresent(IssueSummary.self, forKey: .issue)
-            severity = try container.decodeIfPresent(String.self, forKey: .severity)
+            severity = try container.decodeIfPresent(_Value<String>.self, forKey: .severity)?._value
             try super.init(from: decoder)
         }
 

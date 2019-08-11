@@ -5,8 +5,8 @@ public extension V3_20 {
 
     class LogTextAppendedEventPayload: AnyStreamedEventPayload {
         public let resultInfo: StreamedActionResultInfo?
-        public let sectionIndex: Int
-        public let text: String
+        public let sectionIndex: Int?
+        public let text: String?
 
         private enum CodingKeys: CodingKey {
             case resultInfo
@@ -16,8 +16,8 @@ public extension V3_20 {
 
         public init(
             resultInfo: StreamedActionResultInfo?,
-            sectionIndex: Int,
-            text: String
+            sectionIndex: Int?,
+            text: String?
             ) {
             self.resultInfo = resultInfo
             self.sectionIndex = sectionIndex
@@ -30,8 +30,8 @@ public extension V3_20 {
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             resultInfo = try container.decodeIfPresent(StreamedActionResultInfo.self, forKey: .resultInfo)
-            sectionIndex = try container.decode(_Value<Int>.self, forKey: .sectionIndex)._value
-            text = try container.decode(_Value<String>.self, forKey: .text)._value
+            sectionIndex = try container.decodeIfPresent(_Value<Int>.self, forKey: .sectionIndex)?._value
+            text = try container.decodeIfPresent(_Value<String>.self, forKey: .text)?._value
             try super.init(from: decoder)
         }
 
@@ -39,8 +39,8 @@ public extension V3_20 {
             try super.encode(to: encoder)
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(resultInfo, forKey: .resultInfo)
-            try container.encode(sectionIndex, forKey: .sectionIndex)
-            try container.encode(text, forKey: .text)
+            try container.encodeIfPresent(sectionIndex, forKey: .sectionIndex)
+            try container.encodeIfPresent(text, forKey: .text)
         }
     }
 }

@@ -4,15 +4,15 @@ import Foundation
 public extension V3_20 {
 
     class ActionTestAttachment: Codable {
-        public let uniformTypeIdentifier: String
+        public let uniformTypeIdentifier: String?
         public let name: String?
         public let timestamp: Date?
         public let userInfo: SortedKeyValueArray?
-        public let lifetime: String
-        public let inActivityIdentifier: Int
+        public let lifetime: String?
+        public let inActivityIdentifier: Int?
         public let filename: String?
         public let payloadRef: Reference?
-        public let payloadSize: Int
+        public let payloadSize: Int?
 
         private enum CodingKeys: CodingKey {
             case uniformTypeIdentifier
@@ -27,15 +27,15 @@ public extension V3_20 {
         }
 
         public init(
-            uniformTypeIdentifier: String,
+            uniformTypeIdentifier: String?,
             name: String?,
             timestamp: Date?,
             userInfo: SortedKeyValueArray?,
-            lifetime: String,
-            inActivityIdentifier: Int,
+            lifetime: String?,
+            inActivityIdentifier: Int?,
             filename: String?,
             payloadRef: Reference?,
-            payloadSize: Int
+            payloadSize: Int?
             ) {
             self.uniformTypeIdentifier = uniformTypeIdentifier
             self.name = name
@@ -52,28 +52,28 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            uniformTypeIdentifier = try container.decode(_Value<String>.self, forKey: .uniformTypeIdentifier)._value
-            name = try container.decodeIfPresent(String.self, forKey: .name)
-            timestamp = try container.decodeIfPresent(Date.self, forKey: .timestamp)
+            uniformTypeIdentifier = try container.decodeIfPresent(_Value<String>.self, forKey: .uniformTypeIdentifier)?._value
+            name = try container.decodeIfPresent(_Value<String>.self, forKey: .name)?._value
+            timestamp = try container.decodeIfPresent(_Value<Date>.self, forKey: .timestamp)?._value
             userInfo = try container.decodeIfPresent(SortedKeyValueArray.self, forKey: .userInfo)
-            lifetime = try container.decode(_Value<String>.self, forKey: .lifetime)._value
-            inActivityIdentifier = try container.decode(_Value<Int>.self, forKey: .inActivityIdentifier)._value
-            filename = try container.decodeIfPresent(String.self, forKey: .filename)
+            lifetime = try container.decodeIfPresent(_Value<String>.self, forKey: .lifetime)?._value
+            inActivityIdentifier = try container.decodeIfPresent(_Value<Int>.self, forKey: .inActivityIdentifier)?._value
+            filename = try container.decodeIfPresent(_Value<String>.self, forKey: .filename)?._value
             payloadRef = try container.decodeIfPresent(Reference.self, forKey: .payloadRef)
-            payloadSize = try container.decode(_Value<Int>.self, forKey: .payloadSize)._value
+            payloadSize = try container.decodeIfPresent(_Value<Int>.self, forKey: .payloadSize)?._value
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(uniformTypeIdentifier, forKey: .uniformTypeIdentifier)
+            try container.encodeIfPresent(uniformTypeIdentifier, forKey: .uniformTypeIdentifier)
             try container.encodeIfPresent(name, forKey: .name)
             try container.encodeIfPresent(timestamp, forKey: .timestamp)
             try container.encodeIfPresent(userInfo, forKey: .userInfo)
-            try container.encode(lifetime, forKey: .lifetime)
-            try container.encode(inActivityIdentifier, forKey: .inActivityIdentifier)
+            try container.encodeIfPresent(lifetime, forKey: .lifetime)
+            try container.encodeIfPresent(inActivityIdentifier, forKey: .inActivityIdentifier)
             try container.encodeIfPresent(filename, forKey: .filename)
             try container.encodeIfPresent(payloadRef, forKey: .payloadRef)
-            try container.encode(payloadSize, forKey: .payloadSize)
+            try container.encodeIfPresent(payloadSize, forKey: .payloadSize)
         }
     }
 }

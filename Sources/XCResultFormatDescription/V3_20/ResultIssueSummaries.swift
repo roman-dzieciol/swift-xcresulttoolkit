@@ -4,10 +4,10 @@ import Foundation
 public extension V3_20 {
 
     class ResultIssueSummaries: Codable {
-        public let analyzerWarningSummaries: [IssueSummary]
-        public let errorSummaries: [IssueSummary]
-        public let testFailureSummaries: [TestFailureIssueSummary]
-        public let warningSummaries: [IssueSummary]
+        public let analyzerWarningSummaries: [IssueSummary]?
+        public let errorSummaries: [IssueSummary]?
+        public let testFailureSummaries: [TestFailureIssueSummary]?
+        public let warningSummaries: [IssueSummary]?
 
         private enum CodingKeys: CodingKey {
             case analyzerWarningSummaries
@@ -17,10 +17,10 @@ public extension V3_20 {
         }
 
         public init(
-            analyzerWarningSummaries: [IssueSummary],
-            errorSummaries: [IssueSummary],
-            testFailureSummaries: [TestFailureIssueSummary],
-            warningSummaries: [IssueSummary]
+            analyzerWarningSummaries: [IssueSummary]?,
+            errorSummaries: [IssueSummary]?,
+            testFailureSummaries: [TestFailureIssueSummary]?,
+            warningSummaries: [IssueSummary]?
             ) {
             self.analyzerWarningSummaries = analyzerWarningSummaries
             self.errorSummaries = errorSummaries
@@ -32,18 +32,18 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            analyzerWarningSummaries = try container.decode([IssueSummary].self, forKey: .analyzerWarningSummaries)
-            errorSummaries = try container.decode([IssueSummary].self, forKey: .errorSummaries)
-            testFailureSummaries = try container.decode([TestFailureIssueSummary].self, forKey: .testFailureSummaries)
-            warningSummaries = try container.decode([IssueSummary].self, forKey: .warningSummaries)
+            analyzerWarningSummaries = try container.decodeIfPresent(_Values<IssueSummary>.self, forKey: .analyzerWarningSummaries)?._values
+            errorSummaries = try container.decodeIfPresent(_Values<IssueSummary>.self, forKey: .errorSummaries)?._values
+            testFailureSummaries = try container.decodeIfPresent(_Values<TestFailureIssueSummary>.self, forKey: .testFailureSummaries)?._values
+            warningSummaries = try container.decodeIfPresent(_Values<IssueSummary>.self, forKey: .warningSummaries)?._values
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(analyzerWarningSummaries, forKey: .analyzerWarningSummaries)
-            try container.encode(errorSummaries, forKey: .errorSummaries)
-            try container.encode(testFailureSummaries, forKey: .testFailureSummaries)
-            try container.encode(warningSummaries, forKey: .warningSummaries)
+            try container.encodeIfPresent(analyzerWarningSummaries, forKey: .analyzerWarningSummaries)
+            try container.encodeIfPresent(errorSummaries, forKey: .errorSummaries)
+            try container.encodeIfPresent(testFailureSummaries, forKey: .testFailureSummaries)
+            try container.encodeIfPresent(warningSummaries, forKey: .warningSummaries)
         }
     }
 }

@@ -27,7 +27,7 @@ public class SwiftTextEmitter {
         let namespaceSyntax = formatter.visit(namespaceDecl(version: model.version))
         try write(syntax: namespaceSyntax, to: baseURL.appendingPathComponent(model.version).appendingPathExtension("swift"))
 
-        try model.allTypes().forEach { pair in
+        try model.allObjectTypes().forEach { pair in
             let (typeName, type) = pair
             let syntax = try emit(type: type)
             let outputURL = baseURL.appendingPathComponent(typeName).appendingPathExtension("swift")

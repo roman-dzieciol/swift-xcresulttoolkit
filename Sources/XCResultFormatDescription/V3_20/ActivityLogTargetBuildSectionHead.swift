@@ -11,10 +11,10 @@ public extension V3_20 {
         }
 
         public init(
-            domainType: String,
-            title: String,
+            domainType: String?,
+            title: String?,
             startTime: Date?,
-            subtitle: String,
+            subtitle: String?,
             productType: String?
             ) {
             self.productType = productType
@@ -25,7 +25,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            productType = try container.decodeIfPresent(String.self, forKey: .productType)
+            productType = try container.decodeIfPresent(_Value<String>.self, forKey: .productType)?._value
             try super.init(from: decoder)
         }
 

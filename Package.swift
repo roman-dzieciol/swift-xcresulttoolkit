@@ -50,7 +50,7 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "XCResultFormatDescriptionTests",
-            dependencies: ["XCResultFormatDescription"]),
+            dependencies: ["XCResultFormatDescription", "XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
         .testTarget(
             name: "XCResultFormatGeneratorTests",
             dependencies: ["XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),

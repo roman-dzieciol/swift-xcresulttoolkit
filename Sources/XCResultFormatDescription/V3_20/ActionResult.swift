@@ -4,11 +4,11 @@ import Foundation
 public extension V3_20 {
 
     class ActionResult: Codable {
-        public let resultName: String
-        public let status: String
-        public let metrics: ResultMetrics
-        public let issues: ResultIssueSummaries
-        public let coverage: CodeCoverageInfo
+        public let resultName: String?
+        public let status: String?
+        public let metrics: ResultMetrics?
+        public let issues: ResultIssueSummaries?
+        public let coverage: CodeCoverageInfo?
         public let timelineRef: Reference?
         public let logRef: Reference?
         public let testsRef: Reference?
@@ -27,11 +27,11 @@ public extension V3_20 {
         }
 
         public init(
-            resultName: String,
-            status: String,
-            metrics: ResultMetrics,
-            issues: ResultIssueSummaries,
-            coverage: CodeCoverageInfo,
+            resultName: String?,
+            status: String?,
+            metrics: ResultMetrics?,
+            issues: ResultIssueSummaries?,
+            coverage: CodeCoverageInfo?,
             timelineRef: Reference?,
             logRef: Reference?,
             testsRef: Reference?,
@@ -52,11 +52,11 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            resultName = try container.decode(_Value<String>.self, forKey: .resultName)._value
-            status = try container.decode(_Value<String>.self, forKey: .status)._value
-            metrics = try container.decode(ResultMetrics.self, forKey: .metrics)
-            issues = try container.decode(ResultIssueSummaries.self, forKey: .issues)
-            coverage = try container.decode(CodeCoverageInfo.self, forKey: .coverage)
+            resultName = try container.decodeIfPresent(_Value<String>.self, forKey: .resultName)?._value
+            status = try container.decodeIfPresent(_Value<String>.self, forKey: .status)?._value
+            metrics = try container.decodeIfPresent(ResultMetrics.self, forKey: .metrics)
+            issues = try container.decodeIfPresent(ResultIssueSummaries.self, forKey: .issues)
+            coverage = try container.decodeIfPresent(CodeCoverageInfo.self, forKey: .coverage)
             timelineRef = try container.decodeIfPresent(Reference.self, forKey: .timelineRef)
             logRef = try container.decodeIfPresent(Reference.self, forKey: .logRef)
             testsRef = try container.decodeIfPresent(Reference.self, forKey: .testsRef)
@@ -65,11 +65,11 @@ public extension V3_20 {
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(resultName, forKey: .resultName)
-            try container.encode(status, forKey: .status)
-            try container.encode(metrics, forKey: .metrics)
-            try container.encode(issues, forKey: .issues)
-            try container.encode(coverage, forKey: .coverage)
+            try container.encodeIfPresent(resultName, forKey: .resultName)
+            try container.encodeIfPresent(status, forKey: .status)
+            try container.encodeIfPresent(metrics, forKey: .metrics)
+            try container.encodeIfPresent(issues, forKey: .issues)
+            try container.encodeIfPresent(coverage, forKey: .coverage)
             try container.encodeIfPresent(timelineRef, forKey: .timelineRef)
             try container.encodeIfPresent(logRef, forKey: .logRef)
             try container.encodeIfPresent(testsRef, forKey: .testsRef)

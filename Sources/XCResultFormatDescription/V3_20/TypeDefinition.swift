@@ -4,7 +4,7 @@ import Foundation
 public extension V3_20 {
 
     class TypeDefinition: Codable {
-        public let name: String
+        public let name: String?
         public let supertype: TypeDefinition?
 
         private enum CodingKeys: CodingKey {
@@ -13,7 +13,7 @@ public extension V3_20 {
         }
 
         public init(
-            name: String,
+            name: String?,
             supertype: TypeDefinition?
             ) {
             self.name = name
@@ -24,13 +24,13 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            name = try container.decode(_Value<String>.self, forKey: .name)._value
+            name = try container.decodeIfPresent(_Value<String>.self, forKey: .name)?._value
             supertype = try container.decodeIfPresent(TypeDefinition.self, forKey: .supertype)
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(name, forKey: .name)
+            try container.encodeIfPresent(name, forKey: .name)
             try container.encodeIfPresent(supertype, forKey: .supertype)
         }
     }

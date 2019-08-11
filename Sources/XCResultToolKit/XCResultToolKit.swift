@@ -19,6 +19,14 @@ public final class XCResultToolKit {
             "--include-event-stream-types"
             ] + args)
     }
+    
+    public func get(path: String, args: [String] = []) throws -> Data {
+        return try xcresulttool(args: [
+            "get",
+            "--format", "json",
+            "--path", path,
+            ] + args)
+    }
 
     public func xcresulttool(args: [String]) throws -> Data {
         return try launch(

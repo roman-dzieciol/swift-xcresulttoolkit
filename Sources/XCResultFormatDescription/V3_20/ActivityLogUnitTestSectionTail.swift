@@ -15,7 +15,7 @@ public extension V3_20 {
         }
 
         public init(
-            duration: Double,
+            duration: Double?,
             result: String?,
             summary: String?,
             performanceTestOutput: String?,
@@ -31,9 +31,9 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            summary = try container.decodeIfPresent(String.self, forKey: .summary)
-            performanceTestOutput = try container.decodeIfPresent(String.self, forKey: .performanceTestOutput)
-            testsPassedString = try container.decodeIfPresent(String.self, forKey: .testsPassedString)
+            summary = try container.decodeIfPresent(_Value<String>.self, forKey: .summary)?._value
+            performanceTestOutput = try container.decodeIfPresent(_Value<String>.self, forKey: .performanceTestOutput)?._value
+            testsPassedString = try container.decodeIfPresent(_Value<String>.self, forKey: .testsPassedString)?._value
             try super.init(from: decoder)
         }
 

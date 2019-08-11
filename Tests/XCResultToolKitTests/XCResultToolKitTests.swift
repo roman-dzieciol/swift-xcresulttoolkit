@@ -1,7 +1,5 @@
 import XCTest
 import XCResultToolKit
-import SwiftSyntax
-import SWLintKit
 
 final class XCResultToolKitTests: XCTestCase {
 

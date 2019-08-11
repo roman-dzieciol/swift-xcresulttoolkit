@@ -25,13 +25,13 @@ public extension V3_20 {
         }
 
         public init(
-            domainType: String,
-            title: String,
+            domainType: String?,
+            title: String?,
             startTime: Date?,
-            duration: Double,
+            duration: Double?,
             result: String?,
-            subsections: [ActivityLogSection],
-            messages: [ActivityLogMessage],
+            subsections: [ActivityLogSection]?,
+            messages: [ActivityLogMessage]?,
             testName: String?,
             suiteName: String?,
             summary: String?,
@@ -56,14 +56,14 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testName = try container.decodeIfPresent(String.self, forKey: .testName)
-            suiteName = try container.decodeIfPresent(String.self, forKey: .suiteName)
-            summary = try container.decodeIfPresent(String.self, forKey: .summary)
-            emittedOutput = try container.decodeIfPresent(String.self, forKey: .emittedOutput)
-            performanceTestOutput = try container.decodeIfPresent(String.self, forKey: .performanceTestOutput)
-            testsPassedString = try container.decodeIfPresent(String.self, forKey: .testsPassedString)
-            runnablePath = try container.decodeIfPresent(String.self, forKey: .runnablePath)
-            runnableUTI = try container.decodeIfPresent(String.self, forKey: .runnableUTI)
+            testName = try container.decodeIfPresent(_Value<String>.self, forKey: .testName)?._value
+            suiteName = try container.decodeIfPresent(_Value<String>.self, forKey: .suiteName)?._value
+            summary = try container.decodeIfPresent(_Value<String>.self, forKey: .summary)?._value
+            emittedOutput = try container.decodeIfPresent(_Value<String>.self, forKey: .emittedOutput)?._value
+            performanceTestOutput = try container.decodeIfPresent(_Value<String>.self, forKey: .performanceTestOutput)?._value
+            testsPassedString = try container.decodeIfPresent(_Value<String>.self, forKey: .testsPassedString)?._value
+            runnablePath = try container.decodeIfPresent(_Value<String>.self, forKey: .runnablePath)?._value
+            runnableUTI = try container.decodeIfPresent(_Value<String>.self, forKey: .runnableUTI)?._value
             try super.init(from: decoder)
         }
 

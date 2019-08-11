@@ -9,7 +9,7 @@ public extension V3_20 {
         }
 
         public override init(
-            duration: Double,
+            duration: Double?,
             result: String?
             ) {
             super.init(duration: duration, result: result)

@@ -7,9 +7,9 @@ public extension V3_20 {
         public let projectRelativePath: String?
         public let targetName: String?
         public let testKind: String?
-        public let tests: [ActionTestSummaryIdentifiableObject]
+        public let tests: [ActionTestSummaryIdentifiableObject]?
         public let diagnosticsDirectoryName: String?
-        public let failureSummaries: [ActionTestFailureSummary]
+        public let failureSummaries: [ActionTestFailureSummary]?
         public let testLanguage: String?
         public let testRegion: String?
 
@@ -29,9 +29,9 @@ public extension V3_20 {
             projectRelativePath: String?,
             targetName: String?,
             testKind: String?,
-            tests: [ActionTestSummaryIdentifiableObject],
+            tests: [ActionTestSummaryIdentifiableObject]?,
             diagnosticsDirectoryName: String?,
-            failureSummaries: [ActionTestFailureSummary],
+            failureSummaries: [ActionTestFailureSummary]?,
             testLanguage: String?,
             testRegion: String?
             ) {
@@ -50,14 +50,14 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            projectRelativePath = try container.decodeIfPresent(String.self, forKey: .projectRelativePath)
-            targetName = try container.decodeIfPresent(String.self, forKey: .targetName)
-            testKind = try container.decodeIfPresent(String.self, forKey: .testKind)
-            tests = try container.decode([ActionTestSummaryIdentifiableObject].self, forKey: .tests)
-            diagnosticsDirectoryName = try container.decodeIfPresent(String.self, forKey: .diagnosticsDirectoryName)
-            failureSummaries = try container.decode([ActionTestFailureSummary].self, forKey: .failureSummaries)
-            testLanguage = try container.decodeIfPresent(String.self, forKey: .testLanguage)
-            testRegion = try container.decodeIfPresent(String.self, forKey: .testRegion)
+            projectRelativePath = try container.decodeIfPresent(_Value<String>.self, forKey: .projectRelativePath)?._value
+            targetName = try container.decodeIfPresent(_Value<String>.self, forKey: .targetName)?._value
+            testKind = try container.decodeIfPresent(_Value<String>.self, forKey: .testKind)?._value
+            tests = try container.decodeIfPresent(_Values<ActionTestSummaryIdentifiableObject>.self, forKey: .tests)?._values
+            diagnosticsDirectoryName = try container.decodeIfPresent(_Value<String>.self, forKey: .diagnosticsDirectoryName)?._value
+            failureSummaries = try container.decodeIfPresent(_Values<ActionTestFailureSummary>.self, forKey: .failureSummaries)?._values
+            testLanguage = try container.decodeIfPresent(_Value<String>.self, forKey: .testLanguage)?._value
+            testRegion = try container.decodeIfPresent(_Value<String>.self, forKey: .testRegion)?._value
             try super.init(from: decoder)
         }
 
@@ -67,9 +67,9 @@ public extension V3_20 {
             try container.encodeIfPresent(projectRelativePath, forKey: .projectRelativePath)
             try container.encodeIfPresent(targetName, forKey: .targetName)
             try container.encodeIfPresent(testKind, forKey: .testKind)
-            try container.encode(tests, forKey: .tests)
+            try container.encodeIfPresent(tests, forKey: .tests)
             try container.encodeIfPresent(diagnosticsDirectoryName, forKey: .diagnosticsDirectoryName)
-            try container.encode(failureSummaries, forKey: .failureSummaries)
+            try container.encodeIfPresent(failureSummaries, forKey: .failureSummaries)
             try container.encodeIfPresent(testLanguage, forKey: .testLanguage)
             try container.encodeIfPresent(testRegion, forKey: .testRegion)
         }

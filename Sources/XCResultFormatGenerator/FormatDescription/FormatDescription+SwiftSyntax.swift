@@ -26,12 +26,18 @@ public extension Property {
         return variableType
     }
     
-    var identifierExpr: ExprSyntax {
+    var nonOptionalIdentifierExpr: ExprSyntax {
         var result: ExprSyntax = IdentifierExpr(type)
         
         if isArray {
             result = ArrayExpr { result }
         }
+        
+        return result
+    }
+    
+    var identifierExpr: ExprSyntax {
+        var result = nonOptionalIdentifierExpr
         
         if isOptional {
             result = SyntaxFactory.makeOptionalChainingExpr(
@@ -42,12 +48,32 @@ public extension Property {
         return result
     }
     
-    func decodableType() -> ExprSyntax {
-        if isValue {
+    var schemaValueType: String? {
+        if isArray {
+            return "_Values"
+        } else if isValue {
+            return "_Value"
+        } else {
+            return nil
+        }
+    }
+    
+    var schemaValueKey: String? {
+        if isArray {
+            return "_values"
+        } else if isValue {
+            return "_value"
+        } else {
+            return nil
+        }
+    }
+    
+    func decodableType(_ schemaValueType: String? = nil) -> ExprSyntax {
+        if let schemaValueType = schemaValueType {
             return
                 MemberAccessExpr(
                     SpecializeExpr({ (b) in
-                        b.useExpression(IdentifierExpr("_Value"))
+                        b.useExpression(IdentifierExpr(schemaValueType))
                         b.useGenericArgumentClause(GenericArgumentClauseSyntax({ (b) in
                             b.useLeftAngleBracket(SyntaxFactory.makeLeftAngleToken())
                             b.useRightAngleBracket(SyntaxFactory.makeRightAngleToken())
@@ -58,26 +84,26 @@ public extension Property {
                     }),
                     .selfKeyword)
         } else {
-            return MemberAccessExpr(nonOptional.identifierExpr, .selfKeyword)
+            return MemberAccessExpr(nonOptionalIdentifierExpr, .selfKeyword)
         }
     }
     
     func decodeCall() -> ExprSyntax {
-        if isValue {
+        if let schemaValueType = self.schemaValueType, let schemaValueKey = self.schemaValueKey {
             return
                 TryExpr {
                     MemberAccessExpr(
                         OptionalChainingExpr({ (b) in
                             b.useExpression(FunctionCallExprSyntax(
                                 MemberAccessExpr("container", isOptional ? "decodeIfPresent" : "decode"),
-                                FunctionCallArgument(nil, decodableType()),
+                                FunctionCallArgument(nil, decodableType(schemaValueType)),
                                 FunctionCallArgument("forKey", MemberAccessExpr(name))
                             ))
                             if isOptional {
                                 b.useQuestionMark(SyntaxFactory.makePostfixQuestionMarkToken())
                             }
                         })
-                        , "_value")
+                        , schemaValueKey)
                     
             }
         } else {

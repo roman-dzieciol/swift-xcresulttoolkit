@@ -4,8 +4,8 @@ import Foundation
 public extension V3_20 {
 
     class IssueSummary: Codable {
-        public let issueType: String
-        public let message: String
+        public let issueType: String?
+        public let message: String?
         public let producingTarget: String?
         public let documentLocationInCreatingWorkspace: DocumentLocation?
 
@@ -17,8 +17,8 @@ public extension V3_20 {
         }
 
         public init(
-            issueType: String,
-            message: String,
+            issueType: String?,
+            message: String?,
             producingTarget: String?,
             documentLocationInCreatingWorkspace: DocumentLocation?
             ) {
@@ -32,16 +32,16 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            issueType = try container.decode(_Value<String>.self, forKey: .issueType)._value
-            message = try container.decode(_Value<String>.self, forKey: .message)._value
-            producingTarget = try container.decodeIfPresent(String.self, forKey: .producingTarget)
+            issueType = try container.decodeIfPresent(_Value<String>.self, forKey: .issueType)?._value
+            message = try container.decodeIfPresent(_Value<String>.self, forKey: .message)?._value
+            producingTarget = try container.decodeIfPresent(_Value<String>.self, forKey: .producingTarget)?._value
             documentLocationInCreatingWorkspace = try container.decodeIfPresent(DocumentLocation.self, forKey: .documentLocationInCreatingWorkspace)
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(issueType, forKey: .issueType)
-            try container.encode(message, forKey: .message)
+            try container.encodeIfPresent(issueType, forKey: .issueType)
+            try container.encodeIfPresent(message, forKey: .message)
             try container.encodeIfPresent(producingTarget, forKey: .producingTarget)
             try container.encodeIfPresent(documentLocationInCreatingWorkspace, forKey: .documentLocationInCreatingWorkspace)
         }

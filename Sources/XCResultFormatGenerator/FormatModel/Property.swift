@@ -24,8 +24,4 @@ public class Property {
         self.isValue = isValue
         self.wrappedType = wrappedType
     }
-
-    var nonOptional: Property {
-        return Property(name: name, type: type, isArray: isArray, isOptional: false, isValue: isValue, wrappedType: wrappedType)
-    }
 }

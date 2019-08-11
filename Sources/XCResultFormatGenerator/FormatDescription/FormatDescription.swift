@@ -37,10 +37,39 @@ extension V3_20_Static {
             public let type: String
             public let isOptional: Bool
             public let wrappedType: String?
+            
+            public var actualType: String {
+                return wrappedType ?? type
+            }
         }
 
         public let type: TypeInfo
         public let kind: KindInfo
         public let properties: [PropertyInfo]?
+    }
+}
+
+extension V3_20_Static.TypeDescription.PropertyInfo {
+    
+    func withSchemaFixes() -> V3_20_Static.TypeDescription.PropertyInfo {
+        return V3_20_Static.TypeDescription.PropertyInfo(name: name, type: type, isOptional: true, wrappedType: wrappedType)
+    }
+}
+
+extension V3_20_Static.TypeDescription {
+    
+    func withSchemaFixes() -> V3_20_Static.TypeDescription {
+        return V3_20_Static.TypeDescription(type: type, kind: kind, properties: properties?.map {
+            return $0.withSchemaFixes()
+        })
+    }
+}
+
+extension V3_20_Static.FormatDescription {
+    
+    func withSchemaFixes() -> V3_20_Static.FormatDescription {
+        return V3_20_Static.FormatDescription(signature: signature, name: name, version: version, types: types.map {
+            return $0.withSchemaFixes()
+        })
     }
 }

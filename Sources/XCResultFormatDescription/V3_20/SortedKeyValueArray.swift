@@ -4,14 +4,14 @@ import Foundation
 public extension V3_20 {
 
     class SortedKeyValueArray: Codable {
-        public let storage: [SortedKeyValueArrayPair]
+        public let storage: [SortedKeyValueArrayPair]?
 
         private enum CodingKeys: CodingKey {
             case storage
         }
 
         public init(
-            storage: [SortedKeyValueArrayPair]
+            storage: [SortedKeyValueArrayPair]?
             ) {
             self.storage = storage
         }
@@ -20,12 +20,12 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            storage = try container.decode([SortedKeyValueArrayPair].self, forKey: .storage)
+            storage = try container.decodeIfPresent(_Values<SortedKeyValueArrayPair>.self, forKey: .storage)?._values
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(storage, forKey: .storage)
+            try container.encodeIfPresent(storage, forKey: .storage)
         }
     }
 }

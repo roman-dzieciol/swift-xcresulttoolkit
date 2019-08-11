@@ -11,7 +11,7 @@ public extension V3_20 {
         }
 
         public init(
-            duration: Double,
+            duration: Double?,
             result: String?,
             exitCode: Int?
             ) {
@@ -23,7 +23,7 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            exitCode = try container.decodeIfPresent(Int.self, forKey: .exitCode)
+            exitCode = try container.decodeIfPresent(_Value<Int>.self, forKey: .exitCode)?._value
             try super.init(from: decoder)
         }
 

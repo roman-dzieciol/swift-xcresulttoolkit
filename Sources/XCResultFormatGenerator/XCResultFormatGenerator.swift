@@ -18,7 +18,7 @@ public struct XCResultFormatGenerator {
         let data = try kit.formatDescription(args: [])
         let formatDescription = try JSONDecoder().decode(V3_20_Static.FormatDescription.self, from: data)
         let importer = V3_20_Static.FormatModelImporter()
-        let formatModel = try importer.formatModel(from: formatDescription)
+        let formatModel = try importer.formatModel(from: formatDescription.withSchemaFixes())
         
         let formatter = SWFormatter()
         let emitter = try SwiftTextEmitter(model: formatModel, formatter: formatter)

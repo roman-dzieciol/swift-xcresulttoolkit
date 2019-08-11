@@ -4,12 +4,12 @@ import Foundation
 public extension V3_20 {
 
     class ActionTestMetadata: ActionTestSummaryIdentifiableObject {
-        public let testStatus: String
+        public let testStatus: String?
         public let duration: Double?
         public let summaryRef: Reference?
-        public let performanceMetricsCount: Int
-        public let failureSummariesCount: Int
-        public let activitySummariesCount: Int
+        public let performanceMetricsCount: Int?
+        public let failureSummariesCount: Int?
+        public let activitySummariesCount: Int?
 
         private enum CodingKeys: CodingKey {
             case testStatus
@@ -23,12 +23,12 @@ public extension V3_20 {
         public init(
             name: String?,
             identifier: String?,
-            testStatus: String,
+            testStatus: String?,
             duration: Double?,
             summaryRef: Reference?,
-            performanceMetricsCount: Int,
-            failureSummariesCount: Int,
-            activitySummariesCount: Int
+            performanceMetricsCount: Int?,
+            failureSummariesCount: Int?,
+            activitySummariesCount: Int?
             ) {
             self.testStatus = testStatus
             self.duration = duration
@@ -43,24 +43,24 @@ public extension V3_20 {
             from decoder: Decoder
             ) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            testStatus = try container.decode(_Value<String>.self, forKey: .testStatus)._value
-            duration = try container.decodeIfPresent(Double.self, forKey: .duration)
+            testStatus = try container.decodeIfPresent(_Value<String>.self, forKey: .testStatus)?._value
+            duration = try container.decodeIfPresent(_Value<Double>.self, forKey: .duration)?._value
             summaryRef = try container.decodeIfPresent(Reference.self, forKey: .summaryRef)
-            performanceMetricsCount = try container.decode(_Value<Int>.self, forKey: .performanceMetricsCount)._value
-            failureSummariesCount = try container.decode(_Value<Int>.self, forKey: .failureSummariesCount)._value
-            activitySummariesCount = try container.decode(_Value<Int>.self, forKey: .activitySummariesCount)._value
+            performanceMetricsCount = try container.decodeIfPresent(_Value<Int>.self, forKey: .performanceMetricsCount)?._value
+            failureSummariesCount = try container.decodeIfPresent(_Value<Int>.self, forKey: .failureSummariesCount)?._value
+            activitySummariesCount = try container.decodeIfPresent(_Value<Int>.self, forKey: .activitySummariesCount)?._value
             try super.init(from: decoder)
         }
 
         public override func encode(to encoder: Encoder) throws {
             try super.encode(to: encoder)
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(testStatus, forKey: .testStatus)
+            try container.encodeIfPresent(testStatus, forKey: .testStatus)
             try container.encodeIfPresent(duration, forKey: .duration)
             try container.encodeIfPresent(summaryRef, forKey: .summaryRef)
-            try container.encode(performanceMetricsCount, forKey: .performanceMetricsCount)
-            try container.encode(failureSummariesCount, forKey: .failureSummariesCount)
-            try container.encode(activitySummariesCount, forKey: .activitySummariesCount)
+            try container.encodeIfPresent(performanceMetricsCount, forKey: .performanceMetricsCount)
+            try container.encodeIfPresent(failureSummariesCount, forKey: .failureSummariesCount)
+            try container.encodeIfPresent(activitySummariesCount, forKey: .activitySummariesCount)
         }
     }
 }

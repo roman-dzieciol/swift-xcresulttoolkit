@@ -25,4 +25,10 @@ public class FormatModel {
     public func allTypes() -> [String: TopLevelType] {
         return topLevelTypesByName
     }
+    
+    public func allObjectTypes() -> [String: TopLevelType] {
+        return topLevelTypesByName.filter {
+            return !$0.value.isValue && !$0.value.isArray
+        }
+    }
 }
