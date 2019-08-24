@@ -2,6 +2,13 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import Foundation
+
+func rpathsFromDyldPaths() -> [LinkerSetting] {
+    return (ProcessInfo.processInfo.environment["DYLD_LIBRARY_PATH"] ?? "")
+        .components(separatedBy: ":")
+        .map { .unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", $0]) }
+}
 
 let package = Package(
     name: "xcresulttoolkit",
@@ -15,9 +22,6 @@ let package = Package(
             name: "XCResultToolKit",
             targets: ["XCResultToolKit"]),
         .library(
-            name: "XCResultFormatDescription",
-            targets: ["XCResultFormatDescription"]),
-        .library(
             name: "XCResultFormatGenerator",
             targets: ["XCResultFormatGenerator"])
     ],
@@ -25,10 +29,9 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     
-//        .package(url: "https://github.com/apple/swift-syntax.git", .revision("xcode11-beta1")),
+        .package(url: "https://github.com/roman-dzieciol/swift-syntax.git", .revision("xcode11-beta6-master")),
 //        .package(url: "https://github.com/roman-dzieciol/swift-syntax-util.git", .exact("0.0.2")),
 //        .package(url: "https://github.com/roman-dzieciol/sw-lint.git", .exact("0.0.1"))
-        .package(path: "../_swift/swift-syntax"),
         .package(path: "../swift-syntax-util"),
         .package(path: "../swift-syntax-dsl"),
         .package(path: "../sw-lint"),
@@ -40,23 +43,23 @@ let package = Package(
             name: "XCResultToolCLI",
             dependencies: ["XCResultToolKit"]),
         .target(
-            name: "XCResultFormatDescription",
-            dependencies: []),
-        .target(
             name: "XCResultFormatGenerator",
             dependencies: ["XCResultToolKit", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
         .target(
             name: "XCResultToolKit",
             dependencies: []),
-        .testTarget(
-            name: "XCResultFormatDescriptionTests",
-            dependencies: ["XCResultFormatDescription", "XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
+//        .testTarget(
+//            name: "XCResultFormatTemplateTests",
+//            dependencies: ["XCResultFormatTemplate", "XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"],
+//            linkerSettings: [] + rpathsFromDyldPaths()),
         .testTarget(
             name: "XCResultFormatGeneratorTests",
-            dependencies: ["XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"]),
+            dependencies: ["XCResultFormatGenerator", "SwiftSyntax", "SWLintKit", "SwiftSyntaxUtil", "SwiftSyntaxDSL"],
+            linkerSettings: [] + rpathsFromDyldPaths()),
         .testTarget(
             name: "XCResultToolKitTests",
-            dependencies: ["XCResultToolKit"])
+            dependencies: ["XCResultToolKit"],
+            linkerSettings: [] + rpathsFromDyldPaths())
     ],
     swiftLanguageVersions: [.v5]
 )

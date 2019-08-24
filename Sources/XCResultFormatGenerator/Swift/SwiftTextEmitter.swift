@@ -30,7 +30,9 @@ public class SwiftTextEmitter {
         try model.allObjectTypes().forEach { pair in
             let (typeName, type) = pair
             let syntax = try emit(type: type)
-            let outputURL = baseURL.appendingPathComponent(typeName).appendingPathExtension("swift")
+            let outputURL = baseURL
+                .appendingPathComponent(model.version + "_" + typeName)
+                .appendingPathExtension("swift")
             try write(syntax: syntax, to: outputURL)
         }
     }
