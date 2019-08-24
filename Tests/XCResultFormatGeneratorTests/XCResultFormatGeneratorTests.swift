@@ -12,7 +12,7 @@ final class XCResultFormatGeneratorTests: XCTestCase {
         do {
             let baseURL = rootDirURL()
                 .deletingLastPathComponent()
-                .appendingPathComponent("swift-xcresult-format-description")
+                .appendingPathComponent("swift-xcresulttool-format-description")
             let generator = XCResultFormatGenerator(in: baseURL)
             try generator.generate()
             Process.launchedProcess(launchPath: "/usr/bin/env", arguments: ["open", baseURL.path])

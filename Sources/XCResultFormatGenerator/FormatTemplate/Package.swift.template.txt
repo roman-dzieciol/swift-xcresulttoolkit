@@ -22,9 +22,6 @@ let package = Package(
         .target(
             name: "XCResultToolFormatDescription",
             dependencies: []),
-        .testTarget(
-            name: "XCResultToolFormatDescriptionTests",
-            dependencies: ["XCResultToolFormatDescription"]),
     ],
     swiftLanguageVersions: [.v5]
 )
